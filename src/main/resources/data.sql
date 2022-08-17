@@ -1,1 +1,1 @@
-Insert into Users values('08bfe7ca-1d9c-11ed-861d-0242ac120002','Administrator','df09aec85d056853f2d9da9c8627db3507f39820594efe303980ac45339f80e2e1430f0f7e639635e7f6b12d185367a3938eaa7b0f2f84cbd857a7375617affc','Admin')
+Insert into Users(id,login,password,permission,currentToken) values('08bfe7ca-1d9c-11ed-861d-0242ac120002','Administrator','df09aec85d056853f2d9da9c8627db3507f39820594efe303980ac45339f80e2e1430f0f7e639635e7f6b12d185367a3938eaa7b0f2f84cbd857a7375617affc','Admin',null)
