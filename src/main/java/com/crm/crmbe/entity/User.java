@@ -39,7 +39,8 @@ public class User {
         this.password = Hashing.sha512().hashString(password, StandardCharsets.UTF_8).toString();
     }
 
-    public static void HashPassword(User user) {
-        user.setPassword(Hashing.sha512().hashString(user.getPassword(), StandardCharsets.UTF_8).toString());
+    public User HashPassword() {
+        this.password = Hashing.sha512().hashString(this.password, StandardCharsets.UTF_8).toString();
+        return this;
     }
 }

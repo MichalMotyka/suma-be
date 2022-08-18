@@ -20,15 +20,19 @@ public class UserServices {
     public void save(User user) {
         userRepo.save(user);
     }
+
     public Optional<User> findByID(String id) {
         return userRepo.findById(id);
     }
+
     public void updateToken(String id, String token) {
         userRepo.updateToken(id, token);
     }
+
     public User findByToken(String token) {
         return userRepo.findByCurrentToken(token);
     }
+
     public User findByLoginAndPassword(User user) {
         return userRepo.findByLoginAndPassword(user.getLogin(), user.getPassword());
     }

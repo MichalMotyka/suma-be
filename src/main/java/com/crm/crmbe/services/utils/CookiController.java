@@ -19,5 +19,20 @@ public class CookiController {
         cookie.setHttpOnly(true);
         return cookie;
     }
+    public static void deleteCookie(String key, HttpServletResponse response){
+        Cookie cookie = new Cookie(key, null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+    public static String findCookie(String key, Cookie[] cookies){
+        if(cookies != null && cookies.length > 0){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals(key)){
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
 
 }
