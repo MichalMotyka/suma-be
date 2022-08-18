@@ -5,9 +5,7 @@ import com.crm.crmbe.entity.User;
 import com.crm.crmbe.services.utils.CookiController;
 import com.crm.crmbe.services.utils.properties.ConfigurationPropertiesLoader;
 import com.crm.crmbe.services.utils.properties.ResponsePropertiesLoader;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +24,7 @@ public class JwtFilter implements javax.servlet.Filter {
 
     private static UserServices userServices;
     private final ConfigurationPropertiesLoader configurationPropertiesLoader = new ConfigurationPropertiesLoader();
+    private final ResponsePropertiesLoader responsePropertiesLoader = new ResponsePropertiesLoader();
 
     @Autowired
     private void setUserServices(UserServices userServices) {
@@ -49,14 +48,21 @@ public class JwtFilter implements javax.servlet.Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String token = CookiController.findCookie("authorization", cookies);
         if (token == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getTokenEmpty());
         }else{
-            Claims claims = Jwts
-                    .parser()
-                    .setSigningKey(JwtFilter.userServices.findByToken(token).getPassword())
-                    .parseClaimsJws(token)
-                    .getBody();
-            servletRequest.setAttribute("claims", claims);
+            try {
+                Claims claims = Jwts
+                        .parser()
+                        .setSigningKey(JwtFilter.userServices.findByToken(token).getPassword())
+                        .parseClaimsJws(token)
+                        .getBody();
+                servletRequest.setAttribute("claims", claims);
+            } catch (ExpiredJwtException e){
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getTokenExpired());
+            }catch (JwtException e){
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getTokenInvalid());
+            }
+
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

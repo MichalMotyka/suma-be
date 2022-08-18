@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 
 @RestController
@@ -26,7 +27,7 @@ public class LoginApi {
     private final ResponsePropertiesLoader responsePropertiesLoader = new ResponsePropertiesLoader();
 
     @PutMapping("/login")
-    public String login(@RequestBody User user, HttpServletResponse response) {
+    public String login(@RequestBody User user, HttpServletResponse response) throws IOException {
         User copyUser = userServices.findByLoginAndPassword(user.HashPassword());
         if(copyUser != null) {
             String token = jwtFilter.generateToken(copyUser);
@@ -35,7 +36,7 @@ public class LoginApi {
             CookiController.generateCookie("authorization", token, response);
             return new Response(HttpServletResponse.SC_OK,responsePropertiesLoader.getLoginOK()).toString();
         }
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-       return new Response(response.getStatus(),responsePropertiesLoader.getLoginUnauthorized()).toString();
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getLoginUnauthorized());
+        return null;
     }
 }

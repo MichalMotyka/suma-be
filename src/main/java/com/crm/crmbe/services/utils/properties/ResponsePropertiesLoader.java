@@ -19,4 +19,13 @@ public class ResponsePropertiesLoader {
     public String getLoginUnauthorized() {
         return properties.getProperty("response.message.status.unauthorized");
     }
+    public String getTokenExpired() {
+        return properties.getProperty("response.message.status.token.expired");
+    }
+    public String getTokenEmpty() {
+        return properties.getProperty("response.message.status.token.empty");
+    }
+    public String getTokenInvalid() {
+        return properties.getProperty("response.message.status.token.invalid");
+    }
 }
