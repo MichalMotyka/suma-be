@@ -1,12 +1,13 @@
 package com.crm.crmbe.services.account;
 
 import com.crm.crmbe.database.services.UserServices;
+import com.crm.crmbe.services.utils.CookiController;
 import com.crm.crmbe.entity.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +22,10 @@ public class LoginApi {
     @Autowired
     private UserServices userServices;
 
+    @SneakyThrows
     @PreAuthorize("permitAll()")
     @PutMapping("/login")
-    public Cookie login(@RequestBody User user, HttpServletResponse response) {
+    public void login(@RequestBody User user, HttpServletResponse response) {
         User.HashPassword(user);
         User copyUser = userServices.findByLoginAndPassword(user);
         if(copyUser != null) {
@@ -37,12 +39,9 @@ public class LoginApi {
                     .compact();
             copyUser.setCurrentToken(token);
             userServices.save(copyUser);
-            Cookie cookie = new Cookie("authorization",token);
-            cookie.setHttpOnly(true);
-            cookie.setMaxAge(20000);
-            response.addCookie(cookie);
-            return cookie;
+            CookiController.generateCookie("authorization", token, response);
+            return;
         }
-       return null;
+       response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }
