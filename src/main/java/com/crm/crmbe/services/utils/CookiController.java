@@ -10,7 +10,7 @@ public class CookiController {
     public static void generateCookie(String key, String value, HttpServletResponse response){
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(20000);
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         response.addCookie(cookie);
     }
     public static Cookie generateCookie(String key, String value){

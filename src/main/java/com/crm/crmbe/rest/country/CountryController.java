@@ -3,15 +3,12 @@ package com.crm.crmbe.rest.country;
 import com.crm.crmbe.database.services.CountryServices;
 import com.crm.crmbe.entity.Country;
 import com.crm.crmbe.entity.response.CountrytResponse;
-import com.google.gson.Gson;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+
 @CrossOrigin("*")
 @RestController
 public class CountryController {
@@ -19,9 +16,10 @@ public class CountryController {
     @Autowired
     CountryServices countryServices;
     CountrytResponse countrytResponse = new CountrytResponse();
+
     @GetMapping("/api/v1/country/list")
     public String getAllCountry(HttpServletResponse response){
-        response.addHeader("Access-Control-Allow-Origin","*");
+        response.addHeader("Access-Control-Allow-Origin","http://localhost:4200");
         return countrytResponse.CountryList(countryServices.getAllCountry());
     }
     @PutMapping("/api/v1/country/create")

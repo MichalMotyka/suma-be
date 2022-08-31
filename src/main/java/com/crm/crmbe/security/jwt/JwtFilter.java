@@ -83,12 +83,12 @@ public class JwtFilter implements javax.servlet.Filter {
                 servletRequest.setAttribute("claims", claims);
             } catch (ExpiredJwtException e){
                 try {
-                    Claims claims = Jwts
-                            .parser()
-                            .setSigningKey(JwtFilter.userServices.findByToken(token).getPassword())
-                            .parseClaimsJws(refresh)
-                            .getBody();
-                    servletRequest.setAttribute("claims", claims);
+//                    Claims claims = Jwts
+//                            .parser()
+//                            .setSigningKey(JwtFilter.userServices.findByToken(token).getPassword())
+//                            .parseClaimsJws(refresh)
+//                            .getBody();
+//                    servletRequest.setAttribute("claims", claims);
                 }catch (ExpiredJwtException e1){
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getTokenExpired());
                 }

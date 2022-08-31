@@ -23,6 +23,7 @@ public class LoginApi {
     @PutMapping("/login")
     public String login(@RequestBody User user, HttpServletResponse response) throws IOException {
         User copyUser = userServices.findByLoginAndPassword(user.HashPassword());
+        System.out.println("test");
         if(copyUser != null) {
             String token = jwtFilter.generateToken(copyUser);
             String refresgToken = jwtFilter.generateToken(copyUser);
@@ -31,6 +32,7 @@ public class LoginApi {
             userServices.save(copyUser);
             CookiController.generateCookie("authorization", token, response);
             CookiController.generateCookie("Refresh",refresgToken,response);
+            System.out.println("zalogowano");
             return new Response(HttpServletResponse.SC_OK,responsePropertiesLoader.getLoginOK()).toString();
         }
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getLoginUnauthorized());

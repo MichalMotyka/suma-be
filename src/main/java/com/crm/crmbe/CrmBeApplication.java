@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 import javax.sql.DataSource;
 import java.util.Collections;
@@ -32,6 +33,9 @@ public class CrmBeApplication {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin","http://localhost:4200"));
+        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Expose-Headers","Set-Cookie"));
+        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Set-Cookie"));
         httpSecurity.httpBasic().disable();
         httpSecurity.csrf().disable();
         return httpSecurity.build();
