@@ -3,6 +3,7 @@ package com.crm.crmbe;
 import com.crm.crmbe.security.jwt.JwtFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.sql.DataSource;
 import java.util.Collections;
 @SpringBootApplication
 @EnableWebSecurity
@@ -24,13 +26,15 @@ public class CrmBeApplication {
     public FilterRegistrationBean filterRegistrationBean(){
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new JwtFilter());
-        registrationBean.setUrlPatterns(Collections.singleton("/api/hello/*"));
+        registrationBean.setUrlPatterns(Collections.singleton("/api/v1/*"));
         return registrationBean;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.httpBasic().disable();
         httpSecurity.csrf().disable();
         return httpSecurity.build();
     }
+
 }

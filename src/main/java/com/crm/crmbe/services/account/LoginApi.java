@@ -1,23 +1,17 @@
 package com.crm.crmbe.services.account;
 
 import com.crm.crmbe.database.services.UserServices;
-import com.crm.crmbe.entity.Response;
+import com.crm.crmbe.entity.response.Response;
 import com.crm.crmbe.security.jwt.JwtFilter;
 import com.crm.crmbe.services.utils.CookiController;
 import com.crm.crmbe.entity.User;
-import com.crm.crmbe.services.utils.properties.ConfigurationPropertiesLoader;
 import com.crm.crmbe.services.utils.properties.ResponsePropertiesLoader;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-
+@CrossOrigin("*")
 @RestController
 public class LoginApi {
 
@@ -31,12 +25,21 @@ public class LoginApi {
         User copyUser = userServices.findByLoginAndPassword(user.HashPassword());
         if(copyUser != null) {
             String token = jwtFilter.generateToken(copyUser);
+            String refresgToken = jwtFilter.generateToken(copyUser);
             copyUser.setCurrentToken(token);
+            copyUser.setRefreshToken(refresgToken);
             userServices.save(copyUser);
             CookiController.generateCookie("authorization", token, response);
+            CookiController.generateCookie("Refresh",refresgToken,response);
             return new Response(HttpServletResponse.SC_OK,responsePropertiesLoader.getLoginOK()).toString();
         }
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getLoginUnauthorized());
+        return null;
+    }
+
+    @PostMapping("/register")
+    public String register(@RequestBody User user, HttpServletResponse response){
+
         return null;
     }
 }

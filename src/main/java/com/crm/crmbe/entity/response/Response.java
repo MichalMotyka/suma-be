@@ -1,4 +1,4 @@
-package com.crm.crmbe.entity;
+package com.crm.crmbe.entity.response;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

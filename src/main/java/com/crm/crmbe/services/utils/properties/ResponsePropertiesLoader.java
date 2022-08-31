@@ -28,4 +28,7 @@ public class ResponsePropertiesLoader {
     public String getTokenInvalid() {
         return properties.getProperty("response.message.status.token.invalid");
     }
+    public String getNoPermit(){
+        return properties.getProperty("response.message.status.permit.not");
+    }
 }

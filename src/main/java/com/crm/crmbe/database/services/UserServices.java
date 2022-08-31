@@ -36,4 +36,7 @@ public class UserServices {
     public User findByLoginAndPassword(User user) {
         return userRepo.findByLoginAndPassword(user.getLogin(), user.getPassword());
     }
+    public boolean findIsUserExist(User user){
+        return userRepo.findUsersByLogin(user.getLogin()).isPresent();
+    }
 }
