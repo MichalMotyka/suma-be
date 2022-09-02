@@ -1,5 +1,6 @@
 package com.crm.crmbe;
 
+//import com.crm.crmbe.security.jwt.JwtFilter;
 import com.crm.crmbe.security.jwt.JwtFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,9 +35,10 @@ public class CrmBeApplication {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin","http://localhost:4200"));
-        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Expose-Headers","Set-Cookie"));
-        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Set-Cookie"));
-        httpSecurity.httpBasic().disable();
+        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials","true"));
+//        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Expose-Headers","Set-Cookie"));
+//        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers","true"));
+//        httpSecurity.antMatcher("/api/v1/*").headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin","http://localhost:4200"));
         httpSecurity.csrf().disable();
         return httpSecurity.build();
     }

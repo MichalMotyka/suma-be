@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-@CrossOrigin("*")
 @RestController
 public class CountryController {
 
@@ -19,7 +17,7 @@ public class CountryController {
 
     @GetMapping("/api/v1/country/list")
     public String getAllCountry(HttpServletResponse response){
-        response.addHeader("Access-Control-Allow-Origin","http://localhost:4200");
+        System.out.println("TEST!@#");
         return countrytResponse.CountryList(countryServices.getAllCountry());
     }
     @PutMapping("/api/v1/country/create")
