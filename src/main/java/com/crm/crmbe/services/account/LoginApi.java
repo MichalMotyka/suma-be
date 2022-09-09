@@ -14,6 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @RestController
+@CrossOrigin("*")
 public class LoginApi {
 
     JwtFilter jwtFilter = new JwtFilter();
@@ -31,9 +32,9 @@ public class LoginApi {
             copyUser.setCurrentToken(token);
             copyUser.setRefreshToken(refresgToken);
             userServices.save(copyUser);
-            response.addHeader("Set-Cookie","authorization="+token+"; sameSite=none;Secure;HttpOnly");
-//            CookiController.generateCookie("authorization", token, response);
-            CookiController.generateCookie("Refresh",refresgToken,response);
+//            response.addHeader("Set-Cookie","authorization="+token+";sameSite=none;Secure=false;HttpOnly");
+            CookiController.generateCookie("authorization", token, response);
+//            CookiController.generateCookie("Refresh",refresgToken,response);
             System.out.println("zalogowano");
             return new Response(HttpServletResponse.SC_OK,responsePropertiesLoader.getLoginOK()).toString();
         }

@@ -20,10 +20,14 @@ public class CountryServices {
         countryRepo.findAll().forEach(s-> countrylist.add(s));
         return countrylist;
     }
+    public void disableCountry(Country country){
+        country.setActive("N");
+        countryRepo.save(country);
+    }
     public void saveCountry(Country country){
         countryRepo.save(country);
     }
     public boolean isCountryExist(Country country){
-        return countryRepo.findByNameAndPrefix(country.getName(),country.getPrefix()).isPresent();
+        return countryRepo.findByNameAndPrefixAndActive(country.getName(),country.getPrefix(),"T").isPresent();
     }
 }

@@ -23,5 +23,6 @@ public class Country {
     private String postMask;
     @Column(name = "gusmask")
     private String gusMask;
+    private String active ="T";
 }
 

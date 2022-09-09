@@ -59,6 +59,9 @@ public class JwtFilter implements javax.servlet.Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String token = CookiController.findCookie("authorization", cookies);
         String refresh = CookiController.findCookie("Refresh",cookies);
+        for (Cookie cookie: cookies) {
+            System.out.println(cookie.getName());
+        }
         if (token == null){
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getTokenEmpty());
         }else{

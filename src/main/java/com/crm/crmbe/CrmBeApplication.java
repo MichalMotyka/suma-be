@@ -34,8 +34,10 @@ public class CrmBeApplication {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin","http://localhost:4200"));
-        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials","true"));
+        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin","*"));
+        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Content-Type","application/json"));
+//        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials","true"));
+//        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods","*"));
 //        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Expose-Headers","Set-Cookie"));
 //        httpSecurity.headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers","true"));
 //        httpSecurity.antMatcher("/api/v1/*").headers().addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin","http://localhost:4200"));

@@ -2,7 +2,7 @@ package com.crm.crmbe.rest.country;
 
 import com.crm.crmbe.database.services.CountryServices;
 import com.crm.crmbe.entity.Country;
-import com.crm.crmbe.entity.response.CountrytResponse;
+import com.crm.crmbe.entity.response.ObjectResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +13,10 @@ public class CountryController {
 
     @Autowired
     CountryServices countryServices;
-    CountrytResponse countrytResponse = new CountrytResponse();
+    ObjectResponse countrytResponse = new ObjectResponse();
 
     @GetMapping("/api/v1/country/list")
     public String getAllCountry(HttpServletResponse response){
-        System.out.println("TEST!@#");
         return countrytResponse.CountryList(countryServices.getAllCountry());
     }
     @PutMapping("/api/v1/country/create")
@@ -34,6 +33,19 @@ public class CountryController {
             response.sendError(HttpServletResponse.SC_OK,"Country cannot be created");
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+    @DeleteMapping("/api/v1/country/delete")
+    public void deleteCountry(@RequestBody Country country,HttpServletResponse response) throws IOException {
+        if(countryServices.isCountryExist(country)){
+            countryServices.disableCountry(country);
+            try {
+                response.sendError(HttpServletResponse.SC_ACCEPTED,"Country has been dealted");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            response.sendError(HttpServletResponse.SC_CONFLICT,"Country dont exist");
         }
     }
 
