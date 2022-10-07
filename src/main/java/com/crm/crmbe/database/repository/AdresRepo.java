@@ -14,4 +14,6 @@ public interface AdresRepo extends CrudRepository<Adres,Long> {
     Optional<Adres> findByNameAndTypeAndGusAndActive(String name,String Type,String Gus,String active);
     @Query(value = "select * from adres where type != ?1 and gus like ?2", nativeQuery = true)
     Iterable<Adres> findByTypeAndGus(String type, String gus);
+    Iterable<Adres> findByTypeIsNotAndActive(String type,String activate);
+    Iterable<Adres> findByTypeIsNot(String type);
 }

@@ -54,7 +54,29 @@ public class AdresController {
     }
     @GetMapping("/api/v1/adres/get_adres")
     public String getAdres(@RequestParam(name = "gus") String gus){
-        System.out.println(gus);
         return objectResponse.StateList(adresService.findAllAdresForState(gus));
+    }
+    @GetMapping("/api/v1/adres/get_all_no_state")
+    public String getAllNoStateAdres(){
+        return objectResponse.StateList(adresService.findAllAdresNoState());
+    }
+    @GetMapping("/api/v1/adres/get_all_no_state/historic")
+    public String getAllNoStateAdresHistoric(){
+        return objectResponse.StateList(adresService.findAllAdresNoStateHistoric());
+    }
+    @GetMapping("/api/v1/adres/get_by_id")
+    public String getAdresById(@RequestParam(name = "id") String id,HttpServletResponse response){
+        Adres adres = adresService.findAdresById(id);
+        if (adres != null){
+            Gson gson = new Gson();
+            return gson.toJson(adres);
+        }else {
+            try {
+                response.sendError(HttpServletResponse.SC_NO_CONTENT,"Adres does not exist");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return null;
     }
 }

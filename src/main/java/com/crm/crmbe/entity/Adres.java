@@ -21,4 +21,6 @@ public class Adres {
     private String gus;
     private String type;
     private String active;
+    private String post;
+    private String post_code;
 }

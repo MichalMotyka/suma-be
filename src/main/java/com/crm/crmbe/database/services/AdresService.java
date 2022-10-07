@@ -45,4 +45,25 @@ public class AdresService {
         );
         return adresList;
     }
+    public List<Adres> findAllAdresNoState(){
+        List<Adres> adresList = new ArrayList<>();
+        adresRepo.findByTypeIsNotAndActive("województwo","T").forEach(
+                adres -> {
+                    adresList.add(adres);
+                }
+        );
+        return adresList;
+    }
+    public List<Adres> findAllAdresNoStateHistoric(){
+        List<Adres> adresList = new ArrayList<>();
+        adresRepo.findByTypeIsNot("województwo").forEach(
+                adres -> {
+                    adresList.add(adres);
+                }
+        );
+        return adresList;
+    }
+    public Adres findAdresById(String id){
+       return adresRepo.findById(Long.parseLong(id)).get();
+    }
 }

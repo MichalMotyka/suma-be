@@ -59,19 +59,16 @@ public class JwtFilter implements javax.servlet.Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String token = CookiController.findCookie("authorization", cookies);
         String refresh = CookiController.findCookie("Refresh",cookies);
-        for (Cookie cookie: cookies) {
-            System.out.println(cookie.getName());
-        }
         if (token == null){
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getTokenEmpty());
         }else{
-             Stream<PermisionList> permisionListStream = PermisionList
-                     .getPermisionList()
-                     .stream()
-                     .filter(value-> value.getPermision()
-                             .equals(((HttpServletRequest) servletRequest)
-                             .getRequestURI()));
-             String userid = JwtFilter.userServices.findByToken(token).getId();
+//             Stream<PermisionList> permisionListStream = PermisionList
+//                     .getPermisionList()
+//                     .stream()
+//                     .filter(value-> value.getPermision()
+//                             .equals(((HttpServletRequest) servletRequest)
+//                             .getRequestURI()));
+//             String userid = JwtFilter.userServices.findByToken(token).getId();
 //             try {
 //                 JwtFilter.permissionSerices.findPermisionByUserIdAndPermision(userid,permisionListStream.findFirst().get());
 //             }catch (NoSuchElementException e){
@@ -85,6 +82,7 @@ public class JwtFilter implements javax.servlet.Filter {
                         .parseClaimsJws(token)
                         .getBody();
                 servletRequest.setAttribute("claims", claims);
+
             } catch (ExpiredJwtException e){
                 try {
 //                    Claims claims = Jwts
