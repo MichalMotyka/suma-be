@@ -5,6 +5,7 @@ import com.crm.crmbe.database.repository.KontrahentRepo;
 import com.crm.crmbe.entity.HistoricKontrahent;
 import com.crm.crmbe.entity.Kontrahent;
 import com.crm.crmbe.entity.KontrahentImpl;
+import com.crm.crmbe.entity.pp;
 import com.crm.crmbe.services.utils.CookiController;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class KontrahentService {
 
     @Autowired
     KontrahentRepo kontrahentRepo;
+    @Autowired
+    PpService ppService;
 
     @Autowired
     HisKontrahentRepo hisKontrahentRepo;
@@ -36,7 +39,13 @@ public class KontrahentService {
         if(kontrahent.getId() == 0){
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmmssyyMMdd");
             LocalDateTime myObj = LocalDateTime.now();
-            kontrahent.setNumerKlienta(String.valueOf(dtf.format(myObj)+String.valueOf((int)(Math.random()*10))));
+            String id = String.valueOf(dtf.format(myObj)+String.valueOf((int)(Math.random()*10)));
+            kontrahent.setNumerKlienta(id);
+            kontrahentRepo.save(kontrahent);
+            ppService.createIfNotActive(new pp(0L,"",Long.parseLong(id), 0L, 0L, 0L,""));
+            existingKontrahent = kontrahentRepo.findByNumerKlienta(kontrahent.getNumerKlienta());
+            pp pp = ppService.getByContractor(existingKontrahent.get().getId());
+            kontrahent.setPpe(pp.getUid());
             kontrahentRepo.save(kontrahent);
         }else{
             ModelMapper modelMapper = new ModelMapper();
@@ -67,5 +76,11 @@ public class KontrahentService {
         }else{
             return false;
         }
+    }
+    public Kontrahent findByNumber(Long number){
+      return kontrahentRepo.findByNumerKlienta(number.toString()).get();
+    }
+    public Kontrahent findByPP(String pp){
+       return kontrahentRepo.findByPpe(pp).get();
     }
 }

@@ -43,4 +43,12 @@ public class ObjectResponse {
         return "{\"PriceList\":" + gson.toJson(prices) + "}";
     }
 
+
+    public String MeterJsonList(List<Meter> meters) {
+        return  "{\"meterList\":"+gson.toJson(meters)+"}";
+    }
+
+    public String PPJsonList(List<pp> pp){
+        return "{\"ppList\":"+gson.toJson(pp)+"}";
+    }
 }
