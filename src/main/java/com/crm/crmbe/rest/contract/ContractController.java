@@ -3,6 +3,7 @@ package com.crm.crmbe.rest.contract;
 import com.crm.crmbe.database.services.ContractService;
 import com.crm.crmbe.database.services.KontrahentService;
 import com.crm.crmbe.entity.Contract;
+import com.crm.crmbe.entity.services.OtBuissnesServeice;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,13 @@ public class ContractController {
 
     @Autowired
     ContractService contractService;
+    @Autowired
+    OtBuissnesServeice otBuissnesServeice;
 
     @PutMapping("/api/v1/contract/create")
     public void save(@RequestBody Contract contract, HttpServletResponse response) throws IOException {
         if (contractService.createIfNotExist(contract)){
+            System.out.println(otBuissnesServeice.createOtWithContract(contract));
             response.sendError(HttpServletResponse.SC_OK);
         }else {
             response.sendError(HttpServletResponse.SC_NO_CONTENT);
