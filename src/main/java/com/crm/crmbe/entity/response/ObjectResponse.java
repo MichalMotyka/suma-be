@@ -51,4 +51,7 @@ public class ObjectResponse {
     public String PPJsonList(List<pp> pp){
         return "{\"ppList\":"+gson.toJson(pp)+"}";
     }
+    public String ContractJsonList(List<Contract> contractList){
+        return "{\"contractList\":"+gson.toJson(contractList)+"}";
+    }
 }

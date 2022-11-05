@@ -17,10 +17,10 @@ public class OT {
     @Column(columnDefinition = "serial")
     private Long id;
     private String uid;
-    private String pp;
-    private String conctrator;
-    private String contract;
-    private String meter;
+    private Long pp;
+    private Long conctrator;
+    private Long contract;
+    private Long meter;
     private String date;
     private String action;
 }

@@ -30,6 +30,9 @@ public class TariffService {
         }
         return false;
     }
+    public Tariff getById(String id){
+       return tariffRepo.findById(Long.parseLong(id)).get();
+    }
     public boolean deleteIfExist(String id){
         AtomicBoolean isExist = new AtomicBoolean(false);
        tariffRepo.findByTarif_id(id).forEach(value->{

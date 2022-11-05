@@ -54,4 +54,8 @@ public class PriceController {
     public String getByuid(@RequestParam String id){
         return objectResponse.PriceJsonList(priceService.getByuid(id));
     }
+    @GetMapping("api/v1/price/get_by_id")
+    public Price getById(@RequestParam Long id){
+        return priceService.getById(id);
+    }
 }

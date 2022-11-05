@@ -2,6 +2,7 @@ package com.crm.crmbe.rest.tariff;
 
 
 import com.crm.crmbe.database.services.TariffService;
+import com.crm.crmbe.entity.Tariff;
 import com.crm.crmbe.entity.TariffJson;
 import com.crm.crmbe.entity.response.ObjectResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,10 @@ public class TariffController {
         }
     }
 
-
+    @GetMapping("/api/v1/tariff/get")
+    public Tariff getById(@RequestParam String id){
+        return tariffService.getById(id);
+    }
     @GetMapping("/api/v1/tariff/get_all")
     public String getAll(){
         ArrayList<TariffJson> tariffJsonArrayList = new ArrayList<>();

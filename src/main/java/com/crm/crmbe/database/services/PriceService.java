@@ -77,4 +77,7 @@ public class PriceService {
           return false;
       }
     }
+    public Price getById(Long id){
+        return priceRepo.findById(id).get();
+    }
 }

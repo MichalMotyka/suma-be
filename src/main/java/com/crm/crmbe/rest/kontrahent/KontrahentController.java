@@ -42,6 +42,11 @@ public class KontrahentController {
         return objectResponse.KontrahentList(kontrahentService.getAllKontrahent());
     }
 
+    @GetMapping("/api/v1/kontrahent/get")
+    public Kontrahent getById(@RequestParam Long id){
+        return kontrahentService.findById(id);
+    }
+
     @DeleteMapping("/api/v1/kontrahent/delete")
     public void removeKontrahent(@RequestParam String id,HttpServletResponse response) throws IOException {
         if(kontrahentService.removeKontrahent(id)){

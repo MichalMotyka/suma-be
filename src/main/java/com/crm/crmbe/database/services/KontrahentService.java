@@ -46,6 +46,7 @@ public class KontrahentService {
             existingKontrahent = kontrahentRepo.findByNumerKlienta(kontrahent.getNumerKlienta());
             pp pp = ppService.getByContractor(existingKontrahent.get().getId());
             kontrahent.setPpe(pp.getUid());
+            kontrahent.setId(existingKontrahent.get().getId());
             kontrahentRepo.save(kontrahent);
         }else{
             ModelMapper modelMapper = new ModelMapper();
@@ -79,6 +80,9 @@ public class KontrahentService {
     }
     public Kontrahent findByNumber(Long number){
       return kontrahentRepo.findByNumerKlienta(number.toString()).get();
+    }
+    public Kontrahent findById(Long id){
+        return kontrahentRepo.findById(id).get();
     }
     public Kontrahent findByPP(String pp){
        return kontrahentRepo.findByPpe(pp).get();
