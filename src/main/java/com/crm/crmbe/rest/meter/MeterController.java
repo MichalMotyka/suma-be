@@ -3,6 +3,7 @@ package com.crm.crmbe.rest.meter;
 import com.crm.crmbe.database.services.MeterService;
 import com.crm.crmbe.entity.Meter;
 import com.crm.crmbe.entity.response.ObjectResponse;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,16 @@ public class MeterController {
             return objectResponse.MeterJsonList(meterService.getActive());
         }
         return objectResponse.MeterJsonList(meterService.getAll());
+    }
+
+    @GetMapping("api/v1/meter/get_id")
+    public Meter getById(@RequestParam Long id){
+        return meterService.getById(id);
+    }
+
+    @GetMapping("api/v1/meter/get_uid")
+    public Meter getByUid(@RequestParam String uid){
+        return meterService.getByModel(uid);
     }
 
     @DeleteMapping("api/v1/meter/remove")

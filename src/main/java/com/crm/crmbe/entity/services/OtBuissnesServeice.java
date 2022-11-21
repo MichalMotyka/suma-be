@@ -22,6 +22,6 @@ public class OtBuissnesServeice {
 
     public OT createOtWithContract(Contract contract){
         pp pp =  ppService.getByContractor(contract.getContract());
-        return new OT(0L,"",pp.getId(),contract.getContract(),contract.getId(),0L,contract.getRoz(),"M");
+        return new OT(0L,"",pp.getId(),contract.getContract(),contract.getId(),0L,contract.getRoz(),"M","","");
     }
 }

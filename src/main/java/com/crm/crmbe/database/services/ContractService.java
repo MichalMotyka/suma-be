@@ -3,6 +3,8 @@ package com.crm.crmbe.database.services;
 import com.crm.crmbe.database.repository.ContractRepo;
 import com.crm.crmbe.database.repository.KontrahentRepo;
 import com.crm.crmbe.entity.Contract;
+import com.crm.crmbe.entity.Kontrahent;
+import com.crm.crmbe.entity.pp;
 import com.crm.crmbe.entity.services.OtBuissnesServeice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ public class ContractService {
     OtService otService;
     @Autowired
     OtBuissnesServeice otBuissnesServeice;
+    @Autowired
+    PpService ppService;
 
 
     public boolean createIfNotExist(Contract contract){
@@ -39,6 +43,12 @@ public class ContractService {
             return true;
         }
         return false;
+    }
+    public Contract getByUid(String uid){
+        return contractRepo.findByUid(uid).get();
+    }
+    public Contract getById(Long id){
+        return contractRepo.findById(id).get();
     }
 
     public boolean edit(Contract body){

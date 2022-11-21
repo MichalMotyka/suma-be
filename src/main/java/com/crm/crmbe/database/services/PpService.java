@@ -19,7 +19,7 @@ public class PpService {
     KontrahentService kontrahentService;
 
     public boolean createIfNotActive(pp pp){
-        pp.setContractor(kontrahentService.findByNumber(pp.getContractor()).getId());
+//        pp.setContractor(kontrahentService.findByNumber(pp.getContractor()).getId());
         if (!ppRepo.findByContractor(pp.getContractor()).isPresent()){
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmmssyyMMdd");
             LocalDateTime myObj = LocalDateTime.now();
@@ -37,12 +37,19 @@ public class PpService {
     public List<pp> getActive(){
         return (List<pp>) ppRepo.findByStatus("A");
     }
-    public pp getById(String id){
+    public pp getByUid(String id){
         return ppRepo.findByUid(id).get();
+    }
+    public pp getById(Long id){
+        return ppRepo.findById(id).get();
     }
 
     public pp getByContractor(Long contractor){
       return ppRepo.findByContractor(contractor).get();
+    }
+
+    public void updatePP(pp pp){
+        ppRepo.save(pp);
     }
 
 }

@@ -41,6 +41,14 @@ public class ContractController {
         }
         return null;
     }
+    @GetMapping("/api/v1/contract/getById")
+    public Contract getById(@RequestParam Long id){
+        return contractService.getById(id);
+    }
+    @GetMapping("/api/v1/contract/getByUid")
+    public Contract getByUid(@RequestParam String uid){
+        return contractService.getByUid(uid);
+    }
     @DeleteMapping("/api/v1/contract/delete")
     public void delete(@RequestParam String id,HttpServletResponse response) throws IOException {
         if (contractService.dealteIfExist(id)){

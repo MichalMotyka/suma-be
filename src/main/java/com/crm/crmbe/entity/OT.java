@@ -23,4 +23,6 @@ public class OT {
     private Long meter;
     private String date;
     private String action;
+    private String status;
+    private String replace;
 }

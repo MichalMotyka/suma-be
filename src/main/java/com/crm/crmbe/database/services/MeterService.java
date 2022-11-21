@@ -21,6 +21,12 @@ public class MeterService {
         }
         return false;
     }
+    public Meter getByModel(String model){
+        return meterRepo.findByModel(model).get();
+    }
+    public Meter getById(Long id){
+        return meterRepo.findById(id).get();
+    }
 
     public List<Meter> getAll(){
        return (List<Meter>) meterRepo.findAll();

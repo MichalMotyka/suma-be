@@ -55,6 +55,9 @@ public class KontrahentController {
             response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE,"Kontrahent dosn't exist");
         }
     }
-
+    @GetMapping("/api/v1/kontrahent/get_uid")
+    public Kontrahent getByUid(@RequestParam Long uid){
+        return kontrahentService.findByNumber(uid);
+    }
 
 }

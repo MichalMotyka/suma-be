@@ -35,7 +35,13 @@ public class PpController {
         }
     }
     @GetMapping("/api/v1/pp/getByUid")
-    public String getById(@RequestParam String id){
+    public String getByUid(@RequestParam String id){
+        Gson gson = new Gson();
+        return gson.toJson(ppService.getByUid(id));
+    }
+
+    @GetMapping("/api/v1/pp/getById")
+    public String getById(@RequestParam Long id){
         Gson gson = new Gson();
         return gson.toJson(ppService.getById(id));
     }

@@ -33,17 +33,16 @@ public class KontrahentService {
 
     public void saveKontrahent(KontrahentImpl kontrahent, Cookie[] cookies){
         Optional<Kontrahent> existingKontrahent = kontrahentRepo.findByNumerKlienta(kontrahent.getNumerKlienta());
-        if (existingKontrahent.isPresent()){
-            kontrahent.setId(existingKontrahent.get().getId());
-        }
+        existingKontrahent.ifPresent(value -> kontrahent.setId(value.getId()));
+        System.out.println(kontrahent.getId());
         if(kontrahent.getId() == 0){
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmmssyyMMdd");
             LocalDateTime myObj = LocalDateTime.now();
             String id = String.valueOf(dtf.format(myObj)+String.valueOf((int)(Math.random()*10)));
             kontrahent.setNumerKlienta(id);
             kontrahentRepo.save(kontrahent);
-            ppService.createIfNotActive(new pp(0L,"",Long.parseLong(id), 0L, 0L, 0L,""));
             existingKontrahent = kontrahentRepo.findByNumerKlienta(kontrahent.getNumerKlienta());
+            ppService.createIfNotActive(new pp(0L,"",existingKontrahent.get().getId(), 0L, 0L, 0L,""));
             pp pp = ppService.getByContractor(existingKontrahent.get().getId());
             kontrahent.setPpe(pp.getUid());
             kontrahent.setId(existingKontrahent.get().getId());
