@@ -12,4 +12,5 @@ public interface ContractRepo extends CrudRepository<Contract,Long> {
 
     Optional<Contract> findByStateAndContract(String state,Long contractor);
     Optional<Contract> findByUid(String uid);
+    Optional<Contract> findByOt(Long ot);
 }

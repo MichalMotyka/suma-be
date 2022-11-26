@@ -82,16 +82,23 @@ public class OtService {
             ot.setStatus("Z");
             Contract contract = contractService.getById(ot.getContract());
             pp pp =ppService.getById(ot.getPp());
-            if (!contract.getState().equals("O") && pp.getMeter() == 0 && ot.getAction().equals("M")){
+            if (contract.getState().equals("S") && pp.getMeter() == 0 && ot.getAction().equals("M")){
                 pp.setMeter(ot.getMeter());
+                contract.setState("A");
+                contractService.edit(contract);
                 ppService.updatePP(pp);
-            }else if (contract.getState().equals("A") && pp.getMeter() != 0 && ot.getAction().equals("W")){
+            }else if (contract.getState().equals("P") && pp.getMeter() != 0 && ot.getAction().equals("D")){
                 pp.setMeter(0L);
                 ppService.updatePP(pp);
+                contract.setState("Z");
+                contractService.edit(contract);
             }else return false;
             otRepo.save(ot);
             return true;
         }
         return false;
+    }
+    public OT findById(Long id){
+        return otRepo.findById(id).get();
     }
 }

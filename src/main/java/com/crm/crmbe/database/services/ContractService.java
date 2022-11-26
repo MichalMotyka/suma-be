@@ -4,10 +4,13 @@ import com.crm.crmbe.database.repository.ContractRepo;
 import com.crm.crmbe.database.repository.KontrahentRepo;
 import com.crm.crmbe.entity.Contract;
 import com.crm.crmbe.entity.Kontrahent;
+import com.crm.crmbe.entity.OT;
 import com.crm.crmbe.entity.pp;
 import com.crm.crmbe.entity.services.OtBuissnesServeice;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.rmi.server.UID;
 import java.util.List;
@@ -27,6 +30,10 @@ public class ContractService {
     OtBuissnesServeice otBuissnesServeice;
     @Autowired
     PpService ppService;
+    @Autowired
+    MeterService meterService;
+
+
 
 
     public boolean createIfNotExist(Contract contract){
@@ -82,4 +89,40 @@ public class ContractService {
         return (List<Contract>) contractRepo.findAll();
     }
 
+    public boolean activate(Long id,String date) {
+        Optional<Contract> optContract = contractRepo.findById(id);
+        Contract contract = new Contract();
+        if (optContract.isPresent()){
+            contract = optContract.get();
+        }else return false;
+
+        Kontrahent kontrahent = kontrahentService.findById(contract.getContract());
+        pp pp=ppService.getByUid(kontrahent.getPpe());
+        OT ot = otService.findById(contract.getOt());
+        if (contract.getState().equals("S") && pp.getMeter() == 0 && ot.getStatus().equals("W")){
+            if (otService.veryfi(ot) && pp.getMeter() != 0){
+                contract.setState("A");
+                contractRepo.save(contract);
+                return true;
+            }else return false;
+        }else if(contract.getState().equals("S") && pp.getMeter() != 0 && ot.getStatus().equals("Z")){
+            contract.setState("A");
+            contractRepo.save(contract);
+            return true;
+        } else if (contract.getState().equals("A")) {
+            contract.setState("P");
+            String otId = otService.createIfNotExist(new OT(0L,"",pp.getId(),contract.getContract(),contract.getId(),pp.getMeter(),date,"D","S",""));
+            if (otId != null){
+                contract.setOt(new Long(otId));
+                contract.setEndDate(date);
+                this.contractRepo.save(contract);
+                return true;
+            }
+        } else return false;
+        return false;
+    }
+    public Contract getContractByOt(Long id){
+       if (contractRepo.findByOt(id).isPresent()) return contractRepo.findByOt(id).get();
+       return null;
+    }
 }

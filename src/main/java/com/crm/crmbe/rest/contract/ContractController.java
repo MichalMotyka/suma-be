@@ -70,4 +70,15 @@ public class ContractController {
     public String getAll(){
        return objectResponse.ContractJsonList(contractService.getAll());
     }
+
+    @PutMapping("/api/v1/contract/activate")
+    public void activate(@RequestParam Long id,@RequestBody String date,HttpServletResponse response) throws IOException {
+        date = date.replace("\"","");
+        date= date.substring(0,10);
+        if (contractService.activate(id,date)){
+            response.sendError(HttpServletResponse.SC_OK);
+            return;
+        }
+        response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+    }
 }
