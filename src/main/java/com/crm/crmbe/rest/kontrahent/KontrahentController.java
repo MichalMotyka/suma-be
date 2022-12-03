@@ -56,7 +56,7 @@ public class KontrahentController {
         }
     }
     @GetMapping("/api/v1/kontrahent/get_uid")
-    public Kontrahent getByUid(@RequestParam Long uid){
+    public Kontrahent getByUid(@RequestParam String uid){
         return kontrahentService.findByNumber(uid);
     }
 

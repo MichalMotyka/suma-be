@@ -77,7 +77,7 @@ public class KontrahentService {
             return false;
         }
     }
-    public Kontrahent findByNumber(Long number){
+    public Kontrahent findByNumber(String number){
       return kontrahentRepo.findByNumerKlienta(number.toString()).get();
     }
     public Kontrahent findById(Long id){
