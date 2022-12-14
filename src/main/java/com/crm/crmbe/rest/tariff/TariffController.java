@@ -71,5 +71,9 @@ public class TariffController {
         });
         return objectResponse.TariffJsonList(tariffJsonArrayList);
     }
+    @GetMapping("/api/v1/tariff/getByUid")
+    public String getByUid(@RequestParam String uid){
+       return objectResponse.TariffList(tariffService.getByUid(uid));
+    }
 
 }

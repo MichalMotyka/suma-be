@@ -57,4 +57,6 @@ public class ObjectResponse {
     public String OtJsonList(List<OT> otList){
         return "{\"otList\":"+gson.toJson(otList)+"}";
     }
+
+    public String ReadingJsonList(List<Readings> readings){return "{\"readingList\":"+gson.toJson(readings)+"}";}
 }

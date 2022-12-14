@@ -34,7 +34,6 @@ public class KontrahentService {
     public void saveKontrahent(KontrahentImpl kontrahent, Cookie[] cookies){
         Optional<Kontrahent> existingKontrahent = kontrahentRepo.findByNumerKlienta(kontrahent.getNumerKlienta());
         existingKontrahent.ifPresent(value -> kontrahent.setId(value.getId()));
-        System.out.println(kontrahent.getId());
         if(kontrahent.getId() == 0){
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmmssyyMMdd");
             LocalDateTime myObj = LocalDateTime.now();

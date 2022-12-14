@@ -16,6 +16,10 @@ public class TariffService {
     @Autowired
     TariffRepo tariffRepo;
 
+
+    public List<Tariff> getByUid(String uid){
+        return (List<Tariff>) tariffRepo.findByTarif_id(uid);
+    }
     public boolean saveIfNotExist(TariffJson tariffJson) {
         try {
             if (!tariffRepo.findByNameAndActive(tariffJson.getName(), "T").isPresent()) {

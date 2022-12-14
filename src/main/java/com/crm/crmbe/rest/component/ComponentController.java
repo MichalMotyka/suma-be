@@ -48,7 +48,7 @@ public class ComponentController {
     }
     @GetMapping("api/v1/component/get_by")
     public Component getById(@RequestParam long id){
-       return componentService.findById(id);
+        return componentService.findById(id);
     }
 
 }

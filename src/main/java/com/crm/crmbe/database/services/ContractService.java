@@ -125,4 +125,8 @@ public class ContractService {
        if (contractRepo.findByOt(id).isPresent()) return contractRepo.findByOt(id).get();
        return null;
     }
+    public Contract getByContractor(Long id){
+        if (contractRepo.findByContractAndState(id,"A").isPresent() && contractRepo.findByContractAndState(id,"A").get().getState().equals("A")) return contractRepo.findByContractAndState(id,"A").get();
+        return null;
+    }
 }

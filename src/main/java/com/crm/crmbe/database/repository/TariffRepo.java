@@ -10,7 +10,6 @@ import java.util.Optional;
 public interface TariffRepo extends CrudRepository<Tariff,Long> {
 
     Optional<Tariff> findByNameAndActive(String name,String active);
-
     @Query(value = "select * from Tariff where tarif_id= ?1", nativeQuery = true)
     Iterable<Tariff> findByTarif_id(String tarif_id);
 }

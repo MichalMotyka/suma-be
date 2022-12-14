@@ -19,6 +19,9 @@ public class ContractController {
     ContractService contractService;
     @Autowired
     OtBuissnesServeice otBuissnesServeice;
+    @Autowired
+    KontrahentService kontrahentService;
+
     ObjectResponse objectResponse = new ObjectResponse();
 
 
@@ -80,5 +83,9 @@ public class ContractController {
             return;
         }
         response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+    }
+    @GetMapping("/api/v1/contract/get_by_contractor")
+    public Contract getByContractor(@RequestParam String id){
+        return contractService.getByContractor(kontrahentService.findByNumber(id).getId());
     }
 }
