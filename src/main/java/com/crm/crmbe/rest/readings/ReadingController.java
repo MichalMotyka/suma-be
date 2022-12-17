@@ -43,4 +43,9 @@ public class ReadingController {
         response.sendError(HttpServletResponse.SC_OK);
     }
 
+    @PutMapping("/api/v1/reading/end")
+    public void end(@RequestBody Readings readings, HttpServletResponse response) throws IOException {
+        readingsServices.end(readings);
+        response.sendError(HttpServletResponse.SC_OK);
+    }
 }

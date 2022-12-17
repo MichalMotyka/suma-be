@@ -12,4 +12,6 @@ public interface PriceRepo extends CrudRepository<Price,Long> {
 
     Iterable<Price> findByUid(String uid);
     Iterable<Price> findDistinctByUid(String uid);
+
+    Iterable<Price> findAllByTarif(long tarif);
 }

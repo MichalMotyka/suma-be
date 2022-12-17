@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReadingItemRepo extends CrudRepository<ReadingItem,Long> {
-
+    Iterable<ReadingItem> findAllByReadingId(long readingid);
 }

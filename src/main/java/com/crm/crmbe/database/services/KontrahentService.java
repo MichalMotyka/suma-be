@@ -54,9 +54,10 @@ public class KontrahentService {
             historicKontrahent.setUser_id(userServices.findByToken(token).getId());
             hisKontrahentRepo.save(historicKontrahent);
             kontrahentRepo.save(kontrahent);
-
-
         }
+    }
+    public void editsaldo(KontrahentImpl kontrahent){
+        kontrahentRepo.save(kontrahent);
     }
     public List<Kontrahent> getAllKontrahent(){
         List<Kontrahent> kontrahents = new ArrayList<>();

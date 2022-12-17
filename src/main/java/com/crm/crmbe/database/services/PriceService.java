@@ -80,4 +80,7 @@ public class PriceService {
     public Price getById(Long id){
         return priceRepo.findById(id).get();
     }
+    public List<Price> getAllByTarif(long id){
+       return (List<Price>) priceRepo.findAllByTarif(id);
+    }
 }
