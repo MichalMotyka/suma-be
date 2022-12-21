@@ -7,6 +7,7 @@ import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -88,6 +89,14 @@ public class ReadingsServices {
         });
         kontrahent.setSaldo(kontrahent.getSaldo()+suma.get());
         kontrahentService.editsaldo((KontrahentImpl) kontrahent);
+    }
+
+    public List<ReadingsElement> getByIdItems(long id){
+        List<ReadingsElement> readingsElements = new ArrayList<>();
+        readingItemRepo.findAllByReadingId(id).forEach(value->{
+           readingsElements.add(new ReadingsElement(value.getId(),componentService.findById(value.getElement()).getName(),0, 0+value.getWear(),value.getWear()));
+       });
+        return readingsElements;
     }
 
 }
