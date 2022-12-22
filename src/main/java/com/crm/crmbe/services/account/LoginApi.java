@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @RestController
@@ -38,6 +39,20 @@ public class LoginApi {
         }
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getLoginUnauthorized());
         return null;
+    }
+
+    @GetMapping("/api/v1/logout")
+    public void logout(HttpServletResponse response,HttpServletRequest request) throws IOException {
+        Cookie [] cookies = request.getCookies();
+        if (cookies != null){
+            for (int x = 0; x < cookies.length; x++){
+                cookies[x].setMaxAge(0);
+                cookies[x].setDomain("localhost");
+                cookies[x].setPath("/");
+                response.addCookie(cookies[x]);
+            }
+        }
+        response.sendError(HttpServletResponse.SC_OK);
     }
 
     @PostMapping("/register")
