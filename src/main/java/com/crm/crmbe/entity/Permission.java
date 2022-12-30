@@ -19,9 +19,9 @@ import java.util.List;
 @Setter
 public class Permission {
     @Id
-   private String id;
-   private String userID;
-   private String permision;
+    private String id;
+    private String userID;
+    private String permision;
 
 
 

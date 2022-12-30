@@ -2,6 +2,7 @@ package com.crm.crmbe.entity;
 
 
 import com.google.common.hash.Hashing;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +15,9 @@ import java.nio.charset.StandardCharsets;
 @Setter
 @Entity
 @Table(name = "users")
+@AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private String id;
     private String login;
@@ -25,6 +26,7 @@ public class User {
     private String currentToken;
     @Column(name="refreshtoken")
     private String refreshToken;
+    private String role;
     public User(String id,String login, String password) {
         this.id = id;
         this.login = login;

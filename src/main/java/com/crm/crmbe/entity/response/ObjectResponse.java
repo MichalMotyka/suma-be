@@ -62,4 +62,10 @@ public class ObjectResponse {
     public String ReadingsViewJsonList(List<ReadingsElement> readingsElements){
         return "{\"readingList\":"+gson.toJson(readingsElements)+"}";
     }
+
+    public String UsersListJsonList(List<UserData> userData){
+        return "{\"userList\":"+gson.toJson(userData)+"}";
+    }
+
+    public String RoleListJsonList(List<Role> roleList){return "{\"rolesList\":"+gson.toJson(roleList)+"}";}
 }
