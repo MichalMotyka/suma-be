@@ -52,7 +52,10 @@ public class ContractService {
         return false;
     }
     public Contract getByUid(String uid){
-        return contractRepo.findByUid(uid).get();
+        if (contractRepo.findByUid(uid).isPresent()){
+            return contractRepo.findByUid(uid).get();
+        }
+        return null;
     }
     public Contract getById(Long id){
         return contractRepo.findById(id).get();

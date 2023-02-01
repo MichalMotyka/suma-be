@@ -38,7 +38,10 @@ public class PpService {
         return (List<pp>) ppRepo.findByStatus("A");
     }
     public pp getByUid(String id){
-        return ppRepo.findByUid(id).get();
+        if (ppRepo.findByUid(id).isPresent()){
+            return ppRepo.findByUid(id).get();
+        }
+       return null;
     }
     public pp getById(Long id){
         return ppRepo.findById(id).get();

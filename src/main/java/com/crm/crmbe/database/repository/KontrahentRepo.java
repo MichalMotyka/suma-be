@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface KontrahentRepo extends CrudRepository<KontrahentImpl,Long> {
     Optional<Kontrahent> findByNumerKlienta(String numerKlienta);
     Optional<Kontrahent> findByPpe(String ppe);
+    Iterable<Kontrahent> findByNumerKlientaOrNazwa(String NumerKlienta,String nazwa);
 }

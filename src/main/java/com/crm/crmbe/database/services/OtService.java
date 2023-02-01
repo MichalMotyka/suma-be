@@ -3,6 +3,7 @@ package com.crm.crmbe.database.services;
 
 import com.crm.crmbe.database.repository.OtRepo;
 import com.crm.crmbe.entity.Contract;
+import com.crm.crmbe.entity.Kontrahent;
 import com.crm.crmbe.entity.OT;
 import com.crm.crmbe.entity.pp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,9 @@ public class OtService {
 
     @Autowired
     PpService ppService;
+
+    @Autowired
+    KontrahentService kontrahentService;
 
 
 
@@ -53,7 +58,10 @@ public class OtService {
         return false;
     }
     public OT findByUid(String uid){
-       return otRepo.findByUid(uid).get();
+       if (otRepo.findByUid(uid).isPresent()){
+           return otRepo.findByUid(uid).get();
+       }
+       return null;
     }
 
     public List<OT> getAll(){
@@ -100,5 +108,31 @@ public class OtService {
     }
     public OT findById(Long id){
         return otRepo.findById(id).get();
+    }
+
+    public List<OT> search(String value){
+        List<OT> otList = new ArrayList<>();
+        try {
+          pp pp =  ppService.getByUid(value);
+          if (pp != null &&otRepo.findOTByPp(pp.getId()).isPresent()){
+              otList.add(otRepo.findOTByPp(pp.getId()).get());
+          }
+          if (otRepo.findByUid(value).isPresent()){
+              otList.add(otRepo.findByUid(value).get());
+          }
+          List<Kontrahent> kontrahent = kontrahentService.findByNameAndNumber(value);
+          if (kontrahent != null){
+            kontrahent.forEach(data->{
+                otList.add(otRepo.findOTByConctrator(data.getId()).get());
+            });
+          }
+          Contract contract = contractService.getByUid(value);
+          if (contract != null && otRepo.findOTByContract(contract.getId()).isPresent()){
+              otList.add(otRepo.findOTByContract(contract.getId()).get());
+          }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return otList;
     }
 }

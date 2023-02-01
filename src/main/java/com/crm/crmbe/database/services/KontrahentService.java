@@ -78,10 +78,23 @@ public class KontrahentService {
         }
     }
     public Kontrahent findByNumber(String number){
-      return kontrahentRepo.findByNumerKlienta(number.toString()).get();
+        if (kontrahentRepo.findByNumerKlienta(number).isPresent()){
+            return kontrahentRepo.findByNumerKlienta(number).get();
+        }
+      return null;
+    }
+    public List<Kontrahent> findByNameAndNumber(String nazwa){
+        List<Kontrahent> kontrahentList = (List<Kontrahent>) kontrahentRepo.findByNumerKlientaOrNazwa(nazwa,nazwa);
+        if (kontrahentList.size() != 0){
+            return kontrahentList;
+        }
+        return null;
     }
     public Kontrahent findById(Long id){
-        return kontrahentRepo.findById(id).get();
+        if (kontrahentRepo.findById(id).isPresent()){
+            return kontrahentRepo.findById(id).get();
+        }
+        return null;
     }
     public Kontrahent findByPP(String pp){
        return kontrahentRepo.findByPpe(pp).get();

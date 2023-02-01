@@ -54,5 +54,8 @@ public class OtController {
         }
         response.sendError(HttpServletResponse.SC_NO_CONTENT);
     }
-
+    @GetMapping("api/v1/ot/search")
+    public String search(@RequestParam String data){
+        return objectResponse.OtJsonList(otService.search(data));
+    }
 }

@@ -10,4 +10,8 @@ import java.util.Optional;
 public interface OtRepo extends CrudRepository<OT,Long> {
 
     Optional<OT> findByUid(String uid);
+
+    Optional<OT> findOTByPp(Long pp);
+    Optional<OT> findOTByConctrator(Long id);
+    Optional<OT> findOTByContract(Long id);
 }
