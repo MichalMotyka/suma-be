@@ -58,4 +58,8 @@ public class PriceController {
     public Price getById(@RequestParam Long id){
         return priceService.getById(id);
     }
+    @GetMapping("api/v1/price/search")
+    public String search(@RequestParam String data){
+        return objectResponse.PriceJsonList(priceService.search(data));
+    }
 }

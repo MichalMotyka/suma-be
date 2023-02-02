@@ -13,9 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.rmi.server.UID;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class ContractService {
@@ -131,5 +130,19 @@ public class ContractService {
     public Contract getByContractor(Long id){
         if (contractRepo.findByContractAndState(id,"A").isPresent() && contractRepo.findByContractAndState(id,"A").get().getState().equals("A")) return contractRepo.findByContractAndState(id,"A").get();
         return null;
+    }
+
+    public List<Contract> search(String data) {
+        List<Contract> contractList = new ArrayList<>();
+        if (contractRepo.findByUid(data).isPresent()){
+            contractList.add(contractRepo.findByUid(data).get());
+        }
+        List<Kontrahent> kontrahentList = kontrahentService.findByNameAndNumber(data);
+        if (kontrahentList != null && kontrahentList.size() != 0){
+            kontrahentList.forEach(valeu ->{
+                contractList.addAll((Collection<? extends Contract>) contractRepo.findContractByContractOrPayer(valeu.getId(),valeu.getId()));
+            });
+        }
+        return contractList;
     }
 }

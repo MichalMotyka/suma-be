@@ -50,5 +50,9 @@ public class ComponentController {
     public Component getById(@RequestParam long id){
         return componentService.findById(id);
     }
+    @GetMapping("api/v1/component/search")
+    public String search(@RequestParam String data){
+        return objectResponse.ComponentList(componentService.findByName(data));
+    }
 
 }

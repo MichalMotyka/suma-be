@@ -88,4 +88,8 @@ public class ContractController {
     public Contract getByContractor(@RequestParam String id){
         return contractService.getByContractor(kontrahentService.findByNumber(id).getId());
     }
+    @GetMapping("/api/v1/contract/search")
+    public String search(@RequestParam String data){
+        return objectResponse.ContractJsonList(contractService.search(data));
+    }
 }

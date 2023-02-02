@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +20,8 @@ public class PriceService {
 
     @Autowired
     private PriceRepo priceRepo;
+    @Autowired
+    TariffService tariffService;
 
     @Autowired
     private ComponentService componentService;
@@ -82,5 +85,20 @@ public class PriceService {
     }
     public List<Price> getAllByTarif(long id){
        return (List<Price>) priceRepo.findAllByTarif(id);
+    }
+
+    public List<PriceDocument> search(String data) {
+        List<PriceDocument> priceList = new ArrayList<>();
+        if (priceRepo.findByName(data).isPresent()){
+            priceList.addAll(getByuid(priceRepo.findByName(data).get().getUid()));
+        }
+        if (tariffService.search(data) != null && tariffService.search(data).size() != 0){
+            tariffService.search(data).forEach(value->{
+                priceRepo.findDistinctByTarif(value.getId()).forEach(tarif ->{
+                    priceList.addAll(getByuid(tarif.getUid()));
+                });
+            });
+        }
+        return priceList;
     }
 }

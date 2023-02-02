@@ -60,4 +60,9 @@ public class KontrahentController {
         return kontrahentService.findByNumber(uid);
     }
 
+    @GetMapping("/api/v1/kontrahent/search")
+    public String search(@RequestParam String data){
+        return objectResponse.KontrahentList(kontrahentService.search(data));
+    }
+
 }

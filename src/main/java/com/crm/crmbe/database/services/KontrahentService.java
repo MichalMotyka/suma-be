@@ -99,4 +99,8 @@ public class KontrahentService {
     public Kontrahent findByPP(String pp){
        return kontrahentRepo.findByPpe(pp).get();
     }
+
+    public List<Kontrahent> search(String data) {
+        return (List<Kontrahent>) kontrahentRepo.findByNumerKlientaOrNazwa(data,data);
+    }
 }

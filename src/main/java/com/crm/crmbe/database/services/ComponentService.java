@@ -5,6 +5,8 @@ import com.crm.crmbe.entity.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ComponentService {
 
@@ -35,5 +37,9 @@ public class ComponentService {
     }
     public Component findById(long id){
         return componentRepo.findById(id).get();
+    }
+
+    public List<Component> findByName(String data){
+        return (List<Component>) componentRepo.findByName(data);
     }
 }

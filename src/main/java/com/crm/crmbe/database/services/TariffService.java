@@ -51,4 +51,8 @@ public class TariffService {
     public List<Tariff> getAll(){
         return (List<Tariff>) tariffRepo.findAll();
     }
+
+    public List<Tariff> search(String data) {
+        return (List<Tariff>) tariffRepo.findByName(data);
+    }
 }
