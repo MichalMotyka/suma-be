@@ -2,10 +2,7 @@ package com.crm.crmbe.rest.users;
 
 import com.crm.crmbe.database.services.PermissionSerices;
 import com.crm.crmbe.database.services.UserServices;
-import com.crm.crmbe.entity.Role;
-import com.crm.crmbe.entity.User;
-import com.crm.crmbe.entity.UserComponent;
-import com.crm.crmbe.entity.UserData;
+import com.crm.crmbe.entity.*;
 import com.crm.crmbe.entity.response.ObjectResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +34,7 @@ public class UserController {
 
     @GetMapping("/api/v1/users/getroles")
     public String getAllRoles(){
-        return objectResponse.RoleListJsonList(Role.roleList);
+        return objectResponse.RoleListJsonList(new RoleList().roleList);
     }
 
     @PutMapping("/api/v1/users/register")
@@ -51,5 +48,16 @@ public class UserController {
     @GetMapping("/api/v1/users/get_active_role")
     public String getUserPermisions(@RequestParam String id){
       return objectResponse.RoleListJsonList(permissionSerices.mapPermisionsToRole(permissionSerices.findPermisionByUserId(id)));
+    }
+    @PatchMapping("/api/v1/users/update")
+    public void UpdateUser(@RequestBody UserComponent user, HttpServletResponse response) throws IOException {
+        if (user != null){
+            boolean isUpdated = userServices.updateIfExist(user);
+            if (isUpdated){
+                response.sendError(HttpServletResponse.SC_OK);
+                return;
+            }
+        }
+        response.sendError(HttpServletResponse.SC_CONFLICT,"User has not been updated");
     }
 }

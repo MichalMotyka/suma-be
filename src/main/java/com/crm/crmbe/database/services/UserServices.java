@@ -6,13 +6,12 @@ import com.crm.crmbe.entity.User;
 import com.crm.crmbe.database.repository.UserRepo;
 import com.crm.crmbe.entity.UserComponent;
 import com.google.common.hash.Hashing;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserServices {
@@ -60,7 +59,6 @@ public class UserServices {
         userComponent.setPassword(Hashing.sha512().hashString(userComponent.getPassword(), StandardCharsets.UTF_8).toString());
         userRepo.save(new User(UUID.randomUUID().toString(),userComponent.getName(),userComponent.getPassword(),"","",userComponent.getRoleName()));
         Permission permission = new Permission("", findByLogin(userComponent.getName()).getId(),null);
-        System.out.println(userComponent.getRole().length);
         for (Role role:userComponent.getRole()) {
             if (role.isActive()) {
                 permission.setId(UUID.randomUUID().toString());
@@ -69,5 +67,31 @@ public class UserServices {
             }
         }
         return true;
+    }
+    public UserComponent getUserComponent(User user){
+        Role[] role = permissionSerices.mapPermisionsToRole(permissionSerices.findPermisionByUserId(user.getId())).toArray(new Role[0]);
+        UserComponent userComponent = new UserComponent(user.getId(),user.getLogin(), user.getRole(),role);
+        return userComponent;
+    }
+    public boolean updateIfExist(UserComponent userComponent){
+        Optional<User> exUser = userRepo.findById(userComponent.getId());
+        if (exUser.isPresent()){
+            User user = new User();
+            if (userComponent.getPassword() == null){
+                user.setPassword(exUser.get().getPassword());
+            }else{
+                user.setPassword(Hashing.sha512().hashString(userComponent.getPassword(), StandardCharsets.UTF_8).toString());
+            }
+            user.setId(userComponent.getId());
+            user.setRole(userComponent.getRoleName());
+            user.setLogin(userComponent.getName());
+            user.setCurrentToken(exUser.get().getCurrentToken());
+            userRepo.save(user);
+            Arrays.stream(userComponent.getRole()).forEach(value ->{
+                permissionSerices.updateRole(new Permission("",user.getId(),value.getName()),value);
+            });
+            return true;
+        }
+        return false;
     }
 }

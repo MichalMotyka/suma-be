@@ -5,6 +5,7 @@ import com.google.common.hash.Hashing;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 @Entity
 @Table(name = "users")
 @AllArgsConstructor
+@ToString
 public class User {
     @Id
     @Column(name = "id")

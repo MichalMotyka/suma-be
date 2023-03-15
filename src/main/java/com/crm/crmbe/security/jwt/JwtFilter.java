@@ -4,6 +4,7 @@ import com.crm.crmbe.database.services.PermissionSerices;
 import com.crm.crmbe.database.services.UserServices;
 import com.crm.crmbe.entity.PermisionList;
 import com.crm.crmbe.entity.Permission;
+import com.crm.crmbe.entity.Role;
 import com.crm.crmbe.entity.User;
 import com.crm.crmbe.services.utils.CookiController;
 import com.crm.crmbe.services.utils.properties.ConfigurationPropertiesLoader;
@@ -49,6 +50,16 @@ public class JwtFilter implements javax.servlet.Filter {
                 .setSubject(user.getLogin())
                 .setIssuedAt(new Date(currentTimeMillis))
                 .setExpiration(new Date(currentTimeMillis + configurationPropertiesLoader.getTokenExperience()))
+                .signWith(SignatureAlgorithm.HS512,user.getPassword())
+                .compact();
+    }
+    public String generateUserToken(User user, Role[] roles){
+        long currentTimeMillis =  System.currentTimeMillis();
+        return Jwts.builder()
+                .setSubject(user.getLogin())
+                .setIssuedAt(new Date(currentTimeMillis))
+                .setExpiration(new Date(currentTimeMillis + configurationPropertiesLoader.getTokenExperience()))
+                .claim("user",roles)
                 .signWith(SignatureAlgorithm.HS512,user.getPassword())
                 .compact();
     }

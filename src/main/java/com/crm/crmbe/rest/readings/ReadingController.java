@@ -57,4 +57,8 @@ public class ReadingController {
     public String getById(@RequestParam long id, HttpServletResponse response){
         return objectResponse.ReadingsViewJsonList(readingsServices.getByIdItems(id));
     }
+    @GetMapping("/api/v1/reading/search")
+    public String search(@RequestParam String data){
+        return objectResponse.ReadingJsonList(readingsServices.search(data));
+    }
 }

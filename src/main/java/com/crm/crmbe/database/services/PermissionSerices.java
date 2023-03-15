@@ -4,13 +4,12 @@ import com.crm.crmbe.database.repository.PermissionRepo;
 import com.crm.crmbe.entity.PermisionList;
 import com.crm.crmbe.entity.Permission;
 import com.crm.crmbe.entity.Role;
+import com.crm.crmbe.entity.RoleList;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PermissionSerices {
@@ -28,15 +27,25 @@ public class PermissionSerices {
     }
 
     public List<Role> mapPermisionsToRole(List<Permission> permissions){
-        List<Role> roleList = Role.roleList;
+        List<Role> roleList = new RoleList().roleList;
         permissions.forEach(permission -> {
             roleList.forEach(role -> {
-                System.out.println(role.getName()+" "+permission.getPermision());
                 if (role.getName().equals(permission.getPermision())){
                     role.setActive(true);
                 }
             });
         });
         return roleList;
+    }
+
+    public void updateRole(Permission permission, Role role) {
+       Optional<Permission> permissionOptional = permissionRepo.findPermissionsByUserIDAndPermision(permission.getUserID(), permission.getPermision());
+       if (permissionOptional.isPresent() && !role.isActive()){
+           permission.setId(permissionOptional.get().getId());
+           permissionRepo.delete(permission);
+       } else if (role.isActive() && !permissionOptional.isPresent()) {
+           permission.setId(UUID.randomUUID().toString());
+           savePermision(permission);
+       }
     }
 }

@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface ReadingsRepo extends CrudRepository<Readings,Long> {
 
     Optional<Readings> findByUid(String uid);
+    Optional<Readings> findByContractor(String contractor);
+    Optional<Readings> findByContract(String contract);
 }

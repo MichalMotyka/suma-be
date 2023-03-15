@@ -19,7 +19,6 @@ public class CookiController {
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(20000);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true);
         return cookie;
     }
     public static void deleteCookie(String key, HttpServletResponse response){
