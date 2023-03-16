@@ -67,8 +67,9 @@ public class RoleList {
             new Role(58,"tarifSave",false),
             new Role(59,"tarifDelete",false),
             new Role(60,"tarifGetById",false),
-            new Role(61,"tarfiGetByUid",false),
-            new Role(62,"usersGetAll",false),
-            new Role(63,"usersGetRoles",false),
-            new Role(64,"usersRegister",false)));
+            new Role(61,"tarifGetAll",false),
+            new Role(62,"tarfiGetByUid",false),
+            new Role(63,"usersGetAll",false),
+            new Role(64,"usersGetRoles",false),
+            new Role(65,"usersRegister",false)));
 }
