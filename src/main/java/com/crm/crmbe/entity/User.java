@@ -29,6 +29,7 @@ public class User {
     @Column(name="refreshtoken")
     private String refreshToken;
     private String role;
+    private boolean active = true;
     public User(String id,String login, String password) {
         this.id = id;
         this.login = login;

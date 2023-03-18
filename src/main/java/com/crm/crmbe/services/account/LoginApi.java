@@ -27,7 +27,7 @@ public class LoginApi {
     @PostMapping("/login")
     public UserComponent login(@RequestBody User user, HttpServletResponse response) throws IOException {
         User copyUser = userServices.findByLoginAndPassword(user.HashPassword());
-        if(copyUser != null) {
+        if(copyUser != null && copyUser.isActive()) {
             UserComponent userComponent = userServices.getUserComponent(copyUser);
             String token = jwtFilter.generateToken(copyUser);
             String refresgToken = jwtFilter.generateToken(copyUser);
@@ -39,6 +39,11 @@ public class LoginApi {
 //            CookiController.generateCookie("Refresh",refresgToken,response);
             return userComponent;
             //return new Response(HttpServletResponse.SC_OK,responsePropertiesLoader.getLoginOK()).toString();
+        }
+
+        if (copyUser != null && !copyUser.isActive()){
+            response.sendError(HttpServletResponse.SC_CONFLICT, "Konto zostało usunięte skontaktuj się z administratorem");
+            return null;
         }
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getLoginUnauthorized());
         return null;

@@ -8,4 +8,5 @@ public class UserData {
     private final String id;
     private final String name;
     private final String role;
+    private final boolean active;
 }

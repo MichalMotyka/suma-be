@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.*;
 
 @Service
@@ -57,7 +58,7 @@ public class UserServices {
             return false;
         }
         userComponent.setPassword(Hashing.sha512().hashString(userComponent.getPassword(), StandardCharsets.UTF_8).toString());
-        userRepo.save(new User(UUID.randomUUID().toString(),userComponent.getName(),userComponent.getPassword(),"","",userComponent.getRoleName()));
+        userRepo.save(new User(UUID.randomUUID().toString(),userComponent.getName(),userComponent.getPassword(),"","",userComponent.getRoleName(),true));
         Permission permission = new Permission("", findByLogin(userComponent.getName()).getId(),null);
         for (Role role:userComponent.getRole()) {
             if (role.isActive()) {
@@ -90,6 +91,17 @@ public class UserServices {
             Arrays.stream(userComponent.getRole()).forEach(value ->{
                 permissionSerices.updateRole(new Permission("",user.getId(),value.getName()),value);
             });
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteIfExist(String id){
+        Optional<User> user = userRepo.findById(id);
+        if (user.isPresent()){
+            User newUser = user.get();
+            newUser.setActive(false);
+            userRepo.save(newUser);
             return true;
         }
         return false;

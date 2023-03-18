@@ -27,7 +27,7 @@ public class UserController {
     public String getAll(){
         List<UserData> userData = new ArrayList<>();
         userServices.findAllUser().forEach(value->{
-            userData.add(new UserData(value.getId(),value.getLogin(),value.getRole()));
+            userData.add(new UserData(value.getId(),value.getLogin(),value.getRole(),value.isActive()));
         });
         return objectResponse.UsersListJsonList(userData);
     }
@@ -59,5 +59,14 @@ public class UserController {
             }
         }
         response.sendError(HttpServletResponse.SC_CONFLICT,"User has not been updated");
+    }
+
+    @DeleteMapping("/api/v1/users/delete")
+    public void delete(@RequestParam String id, HttpServletResponse response) throws IOException {
+        if (this.userServices.deleteIfExist(id)){
+            response.sendError(HttpServletResponse.SC_ACCEPTED);
+            return;
+        }
+        response.sendError(HttpServletResponse.SC_CONFLICT);
     }
 }
