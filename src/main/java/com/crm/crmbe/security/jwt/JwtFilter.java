@@ -73,19 +73,20 @@ public class JwtFilter implements javax.servlet.Filter {
         if (token == null){
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getTokenEmpty());
         }else{
-//             Stream<PermisionList> permisionListStream = PermisionList
-//                     .getPermisionList()
-//                     .stream()
-//                     .filter(value-> value.getPermision()
-//                             .equals(((HttpServletRequest) servletRequest)
-//                             .getRequestURI()));
-//             String userid = JwtFilter.userServices.findByToken(token).getId();
-//             try {
-//                 JwtFilter.permissionSerices.findPermisionByUserIdAndPermision(userid,permisionListStream.findFirst().get());
-//             }catch (NoSuchElementException e){
-//                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,responsePropertiesLoader.getNoPermit());
-//                 return;
-//             }
+             Stream<PermisionList> permisionListStream = PermisionList
+                     .getPermisionList()
+                     .stream()
+                     .filter(value-> value.getPermision()
+                             .equals(((HttpServletRequest) servletRequest)
+                             .getRequestURI()));
+             String userid = JwtFilter.userServices.findByToken(token).getId();
+             try {
+                Optional<Permission> permission =  JwtFilter.permissionSerices.findPermisionByUserIdAndPermision(userid,permisionListStream.findFirst().get());
+             }catch (NoSuchElementException e){
+                 e.printStackTrace();
+                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,responsePropertiesLoader.getNoPermit());
+                 return;
+             }
             try {
                 Claims claims = Jwts
                         .parser()

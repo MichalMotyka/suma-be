@@ -5,7 +5,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 public enum PermisionList {
-    adresFull("/api/v1/adres/**"),
+    //adresFull("/api/v1/adres/**"),
     adresList("/api/v1/adres/get_state"),
     adresView("/api/v1/adres/view"),
     adresEdit("/api/v1/adres/edit"),
@@ -68,6 +68,8 @@ public enum PermisionList {
     tarifGetAll("/api/v1/tariff/get_all"),
     tarfiGetByUid("/api/v1/tariff/getByUid"),
     usersGetAll("/api/v1/users/getAll"),
+    usersGetActiveRoles("/api/v1/users/get_active_role"),
+    userUpdate("/api/v1/users/update"),
     usersGetRoles("/api/v1/users/getroles"),
     usersRegister("/api/v1/users/register");
 

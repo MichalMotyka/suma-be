@@ -49,7 +49,7 @@ public class LoginApi {
         return null;
     }
 
-    @GetMapping("/api/v1/logout")
+    @GetMapping("/api/logout")
     public void logout(HttpServletResponse response,HttpServletRequest request) throws IOException {
         Cookie [] cookies = request.getCookies();
         if (cookies != null){

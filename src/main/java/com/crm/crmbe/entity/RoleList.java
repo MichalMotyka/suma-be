@@ -71,5 +71,7 @@ public class RoleList {
             new Role(62,"tarfiGetByUid",false),
             new Role(63,"usersGetAll",false),
             new Role(64,"usersGetRoles",false),
-            new Role(65,"usersRegister",false)));
+            new Role(65,"usersRegister",false),
+            new Role(66,"usersGetActiveRoles",false),
+            new Role(67,"userUpdate",false)));
 }
