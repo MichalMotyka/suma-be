@@ -77,17 +77,16 @@ public class ReadingsServices {
         Kontrahent kontrahent = kontrahentService.findById(Long.valueOf(readings.getContractor()));
         Contract contract = contractService.getByContractor(Long.valueOf(readings.getContractor()));
         List<ReadingItem> readingItemList = (List<ReadingItem>) readingItemRepo.findAllByReadingId(readings.getId());
-        List<Price> priceList = priceService.getAllByTarif(contract.getTarif());
+        //List<Price> priceList = priceService.getAllByTarif(contract.getTarif());
+        Price pricecount = priceService.getById(contract.getPrice());
         readingItemList.forEach(readingItem -> {
-            Optional<Price> pricecount = priceList.stream().filter(price -> price.getComponent() == readingItem.getElement()).findFirst();
-            if (pricecount.isPresent()) {
-                long price = (long) (pricecount.get().getPrice() * readingItem.getWear());
+            //Optional<Price> pricecount = priceList.stream().filter(price -> price.getComponent() == readingItem.getElement()).findFirst();
+                long price = (long) (pricecount.getPrice() * readingItem.getWear());
                 if (componentService.findById(readingItem.getElement()).getTyp().equals("P")) {
                     suma.set(suma.get() + price);
                 } else {
                     suma.set(suma.get() - price);
                 }
-            }
         });
         kontrahent.setSaldo(kontrahent.getSaldo() + suma.get());
         kontrahentService.editsaldo((KontrahentImpl) kontrahent);
