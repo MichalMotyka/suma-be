@@ -22,4 +22,5 @@ public interface UserRepo extends CrudRepository<User, String> {
     @Query(value = "SELECT * FROM Users WHERE currentToken = ?1", nativeQuery = true)
     User findByCurrentToken(String token);
      Optional<User> findUsersByLogin(String login);
+     Optional<User> findByRefreshToken(String token);
 }

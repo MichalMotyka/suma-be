@@ -53,6 +53,15 @@ public class JwtFilter implements javax.servlet.Filter {
                 .signWith(SignatureAlgorithm.HS512,user.getPassword())
                 .compact();
     }
+    public String generateRefreshToken(User user){
+        long currentTimeMillis =  System.currentTimeMillis();
+        return Jwts.builder()
+                .setSubject(user.getLogin())
+                .setIssuedAt(new Date(currentTimeMillis))
+                .setExpiration(new Date(currentTimeMillis + configurationPropertiesLoader.getTokenExperience()+5000000))
+                .signWith(SignatureAlgorithm.HS512,user.getPassword())
+                .compact();
+    }
     public String generateUserToken(User user, Role[] roles){
         long currentTimeMillis =  System.currentTimeMillis();
         return Jwts.builder()
@@ -79,7 +88,18 @@ public class JwtFilter implements javax.servlet.Filter {
                      .filter(value-> value.getPermision()
                              .equals(((HttpServletRequest) servletRequest)
                              .getRequestURI()));
-             String userid = JwtFilter.userServices.findByToken(token).getId();
+            String userid = "";
+             try {
+                 userid = JwtFilter.userServices.findByToken(token).getId();
+             }catch (NullPointerException nullPointerException){
+                 try {
+                     userid = JwtFilter.userServices.findByRefreshToken(refresh).getId();
+                 }catch (NullPointerException nullPointerException1){
+                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getTokenEmpty());
+                 }
+
+             }
+
              try {
                 Optional<Permission> permission =  JwtFilter.permissionSerices.findPermisionByUserIdAndPermision(userid,permisionListStream.findFirst().get());
              }catch (NoSuchElementException e){
@@ -94,21 +114,22 @@ public class JwtFilter implements javax.servlet.Filter {
                         .parseClaimsJws(token)
                         .getBody();
                 servletRequest.setAttribute("claims", claims);
-
-            } catch (ExpiredJwtException e){
+            } catch (Exception e){
                 try {
-//                    Claims claims = Jwts
-//                            .parser()
-//                            .setSigningKey(JwtFilter.userServices.findByToken(token).getPassword())
-//                            .parseClaimsJws(refresh)
-//                            .getBody();
-//                    servletRequest.setAttribute("claims", claims);
-                }catch (ExpiredJwtException e1){
+                    Claims claims = Jwts
+                            .parser()
+                            .setSigningKey(JwtFilter.userServices.findByRefreshToken(refresh).getPassword())
+                            .parseClaimsJws(refresh)
+                            .getBody();
+                    servletRequest.setAttribute("claims", claims);
+                    User user = userServices.findByLogin(claims.getSubject());
+                    String refreshToken = generateToken(user);
+                    user.setCurrentToken(refreshToken);
+                    userServices.save(user);
+                    CookiController.generateCookie("authorization",refreshToken,response);
+                }catch (Exception e1){
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getTokenExpired());
                 }
-
-            }catch (JwtException e){
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, responsePropertiesLoader.getTokenInvalid());
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);

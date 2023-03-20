@@ -42,6 +42,10 @@ public class UserServices {
     public User findByToken(String token) {
         return userRepo.findByCurrentToken(token);
     }
+    public User findByRefreshToken(String token){
+        Optional<User> optionalUser =  userRepo.findByRefreshToken(token);
+        return optionalUser.orElse(null);
+    }
 
     public User findByLoginAndPassword(User user) {
         return userRepo.findByLoginAndPassword(user.getLogin(), user.getPassword());

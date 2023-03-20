@@ -30,13 +30,13 @@ public class LoginApi {
         if(copyUser != null && copyUser.isActive()) {
             UserComponent userComponent = userServices.getUserComponent(copyUser);
             String token = jwtFilter.generateToken(copyUser);
-            String refresgToken = jwtFilter.generateToken(copyUser);
+            String refresgToken = jwtFilter.generateRefreshToken(copyUser);
             copyUser.setCurrentToken(token);
             copyUser.setRefreshToken(refresgToken);
             userServices.save(copyUser);
 //            response.addHeader("Set-Cookie","authorization="+token+";sameSite=none;Secure=false;HttpOnly");
             CookiController.generateCookie("authorization", token, response);
-//            CookiController.generateCookie("Refresh",refresgToken,response);
+            CookiController.generateCookie("Refresh",refresgToken,response);
             return userComponent;
             //return new Response(HttpServletResponse.SC_OK,responsePropertiesLoader.getLoginOK()).toString();
         }
