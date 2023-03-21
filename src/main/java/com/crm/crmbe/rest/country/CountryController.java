@@ -48,6 +48,17 @@ public class CountryController {
             response.sendError(HttpServletResponse.SC_CONFLICT,"Country dont exist");
         }
     }
+    @GetMapping("/api/v1/country/get")
+    public Country getCountry(@RequestParam String id,HttpServletResponse response) throws IOException {
+        Country country = countryServices.getCountryByName(id);
+        if (country != null){
+            country.setGusMask(countryServices.translateGus(country.getGusMask()));
+            country.setPostMask(countryServices.translateGus(country.getPostMask()));
+            return country;
+        }
+        response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        return null;
+    }
 
     public boolean createCountryIfNotExist(Country country){
         if (!countryServices.isCountryExist(country)){

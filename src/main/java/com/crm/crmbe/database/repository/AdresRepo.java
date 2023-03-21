@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface AdresRepo extends CrudRepository<Adres,Long> {
 
     Iterable<Adres> findByType(String type);
+    Optional<Adres> findByNameOrGus(String name,String Gus);
     Optional<Adres> findByNameAndTypeAndGusAndActive(String name,String Type,String Gus,String active);
     @Query(value = "select * from adres where type != ?1 and gus like ?2", nativeQuery = true)
     Iterable<Adres> findByTypeAndGus(String type, String gus);

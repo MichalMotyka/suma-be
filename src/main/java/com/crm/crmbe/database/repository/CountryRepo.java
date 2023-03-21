@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface CountryRepo extends CrudRepository<Country,Long> {
 
     Optional<Country> findByNameAndPrefixAndActive(String name,String prefix,String active);
+
+    Optional<Country> findByNameAndActive(String name,String active);
 }

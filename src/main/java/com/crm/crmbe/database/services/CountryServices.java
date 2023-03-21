@@ -30,4 +30,22 @@ public class CountryServices {
     public boolean isCountryExist(Country country){
         return countryRepo.findByNameAndPrefixAndActive(country.getName(),country.getPrefix(),"T").isPresent();
     }
+    public Country getCountryByName(String id){
+        return countryRepo.findByNameAndActive(id,"T").orElse(null);
+    }
+    public String translateGus(String gus) {
+        gus = gus.replaceAll("[1-9]", "0");
+        gus = gus.replaceAll("[a-zA-Z]", "A");
+        String regex = "";
+        for (String s : gus.split("")) {
+            if (s.equals("0")) {
+                regex += "[0-9]{1}";
+            } else if (s.equals("A")) {
+                regex += "[a-zA-Z]{1}";
+            } else {
+                regex += "[" + s + "]";
+            }
+        }
+        return regex;
+    }
 }

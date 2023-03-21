@@ -71,7 +71,8 @@ public enum PermisionList {
     usersGetActiveRoles("/api/v1/users/get_active_role"),
     userUpdate("/api/v1/users/update"),
     usersGetRoles("/api/v1/users/getroles"),
-    usersRegister("/api/v1/users/register");
+    usersRegister("/api/v1/users/register"),
+    countryGetById("/api/v1/country/get");
 
 
 

@@ -31,6 +31,7 @@ public class RoleList {
             new Role(22,"contractActivation",false),
             new Role(23,"contractGetByContractor",false),
             new Role(24,"countryList",false),
+            new Role(68,"countryGetById",false),
             new Role(25,"countryCreate",false),
             new Role(26,"countryDelete",false),
             new Role(27,"contractorSave",false),

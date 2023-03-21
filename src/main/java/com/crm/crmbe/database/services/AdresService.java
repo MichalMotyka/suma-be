@@ -23,7 +23,8 @@ public class AdresService {
         return adresList;
     }
     public boolean saveIfNotExist(Adres adres){
-        if (!adresRepo.findByNameAndTypeAndGusAndActive(adres.getName(),adres.getType(),adres.getGus(),"T").isPresent()){
+        adres.setGus(adres.getGus().replace("0",""));
+        if (!adresRepo.findByNameAndTypeAndGusAndActive(adres.getName(),adres.getType(),adres.getGus(),"T").isPresent() && !adresRepo.findByNameOrGus(adres.getName(),adres.getGus()).isPresent()){
             adresRepo.save(adres);
             return true;
         }

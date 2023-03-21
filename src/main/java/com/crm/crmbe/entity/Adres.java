@@ -23,4 +23,5 @@ public class Adres {
     private String active;
     private String post;
     private String post_code;
+    private String country;
 }
