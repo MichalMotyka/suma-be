@@ -51,7 +51,10 @@ public class MeterController {
         }else{
             response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
         }
-
+    }
+    @GetMapping("/api/v1/meter/search")
+    public String search(@RequestParam String name){
+        return objectResponse.MeterJsonList(meterService.search(name));
     }
 
 }

@@ -23,4 +23,6 @@ public interface UserRepo extends CrudRepository<User, String> {
     User findByCurrentToken(String token);
      Optional<User> findUsersByLogin(String login);
      Optional<User> findByRefreshToken(String token);
+
+     Iterable<User> findByLoginOrRole(String name,String role);
 }

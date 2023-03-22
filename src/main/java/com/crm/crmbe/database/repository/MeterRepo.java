@@ -12,4 +12,6 @@ public interface MeterRepo extends CrudRepository<Meter,Long> {
     Optional<Meter> findByNameAndModel(String name,String model);
     Iterable<Meter> findByStatus(String status);
     Optional<Meter> findByModel(String model);
+
+    Iterable<Meter> findByName(String name);
 }

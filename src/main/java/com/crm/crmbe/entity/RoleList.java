@@ -74,5 +74,15 @@ public class RoleList {
             new Role(64,"usersGetRoles",false),
             new Role(65,"usersRegister",false),
             new Role(66,"usersGetActiveRoles",false),
-            new Role(67,"userUpdate",false)));
+            new Role(67,"userUpdate",false),
+            new Role(68,"countrySearch",false),
+            new Role(69,"contractSearch",false),
+            new Role(70,"otSearch",false),
+            new Role(71,"componentSearch",false),
+            new Role(72,"tarifSearch",false),
+            new Role(73,"priceSearch",false),
+            new Role(74,"readingSearch",false),
+            new Role(75,"countrieSearch",false),
+            new Role(76,"meterSearch",false),
+            new Role(77,"userSearch",false)));
 }

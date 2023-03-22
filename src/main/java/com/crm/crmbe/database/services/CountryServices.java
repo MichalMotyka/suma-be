@@ -48,4 +48,8 @@ public class CountryServices {
         }
         return regex;
     }
+
+    public List<Country> search(String name) {
+       return (List<Country>) countryRepo.findByNameOrPrefix(name,name);
+    }
 }

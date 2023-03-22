@@ -67,4 +67,8 @@ public class CountryController {
         }
         return false;
     }
+    @GetMapping("/api/v1/country/search")
+    public String search(@RequestParam String name){
+        return countrytResponse.CountryList(countryServices.search(name));
+    }
 }

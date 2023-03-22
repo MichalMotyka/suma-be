@@ -1,10 +1,7 @@
 package com.crm.crmbe.database.services;
 
-import com.crm.crmbe.entity.Permission;
-import com.crm.crmbe.entity.Role;
-import com.crm.crmbe.entity.User;
+import com.crm.crmbe.entity.*;
 import com.crm.crmbe.database.repository.UserRepo;
-import com.crm.crmbe.entity.UserComponent;
 import com.google.common.hash.Hashing;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,5 +106,9 @@ public class UserServices {
             return true;
         }
         return false;
+    }
+
+    public List<User> search(String name) {
+        return (List<User>) userRepo.findByLoginOrRole(name,name);
     }
 }

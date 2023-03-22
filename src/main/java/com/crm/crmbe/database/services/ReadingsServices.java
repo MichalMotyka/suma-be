@@ -78,8 +78,8 @@ public class ReadingsServices {
         Contract contract = contractService.getByContractor(Long.valueOf(readings.getContractor()));
         List<ReadingItem> readingItemList = (List<ReadingItem>) readingItemRepo.findAllByReadingId(readings.getId());
         //List<Price> priceList = priceService.getAllByTarif(contract.getTarif());
-        Price pricecount = priceService.getById(contract.getPrice());
         readingItemList.forEach(readingItem -> {
+            Price pricecount = priceService.getById(readingItem.getElement());
             //Optional<Price> pricecount = priceList.stream().filter(price -> price.getComponent() == readingItem.getElement()).findFirst();
                 long price = (long) (pricecount.getPrice() * readingItem.getWear());
                 if (componentService.findById(readingItem.getElement()).getTyp().equals("P")) {
@@ -88,6 +88,7 @@ public class ReadingsServices {
                     suma.set(suma.get() - price);
                 }
         });
+        System.out.println(suma);
         kontrahent.setSaldo(kontrahent.getSaldo() + suma.get());
         kontrahentService.editsaldo((KontrahentImpl) kontrahent);
     }

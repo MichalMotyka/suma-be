@@ -46,4 +46,8 @@ public class MeterService {
             return false;
         }
     }
+
+    public List<Meter> search(String name) {
+       return (List<Meter>) meterRepo.findByName(name);
+    }
 }

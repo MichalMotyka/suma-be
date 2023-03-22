@@ -1,10 +1,7 @@
 package com.crm.crmbe.database.services;
 
 import com.crm.crmbe.database.repository.PermissionRepo;
-import com.crm.crmbe.entity.PermisionList;
-import com.crm.crmbe.entity.Permission;
-import com.crm.crmbe.entity.Role;
-import com.crm.crmbe.entity.RoleList;
+import com.crm.crmbe.entity.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

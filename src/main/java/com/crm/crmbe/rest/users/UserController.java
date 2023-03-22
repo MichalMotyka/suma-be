@@ -69,4 +69,12 @@ public class UserController {
         }
         response.sendError(HttpServletResponse.SC_CONFLICT);
     }
+    @GetMapping("/api/v1/users/search")
+    public String search(@RequestParam String name){
+        List<UserData> userData = new ArrayList<>();
+        userServices.search(name).forEach(value->{
+            userData.add(new UserData(value.getId(),value.getLogin(),value.getRole(),value.isActive()));
+        });
+        return objectResponse.UsersListJsonList(userData);
+    }
 }
