@@ -83,12 +83,11 @@ public class ReadingsServices {
             //Optional<Price> pricecount = priceList.stream().filter(price -> price.getComponent() == readingItem.getElement()).findFirst();
                 long price = (long) (pricecount.getPrice() * readingItem.getWear());
                 if (componentService.findById(readingItem.getElement()).getTyp().equals("P")) {
-                    suma.set(suma.get() + price);
-                } else {
                     suma.set(suma.get() - price);
+                } else {
+                    suma.set(suma.get() + price);
                 }
         });
-        System.out.println(suma);
         kontrahent.setSaldo(kontrahent.getSaldo() + suma.get());
         kontrahentService.editsaldo((KontrahentImpl) kontrahent);
     }

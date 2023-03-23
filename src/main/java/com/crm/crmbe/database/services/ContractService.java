@@ -80,7 +80,7 @@ public class ContractService {
     }
 
     public Contract getByContractorS1(String id){
-        Optional<Contract> contract = contractRepo.findByStateAndContract("S", Long.valueOf(id));
+        Optional<Contract> contract = contractRepo.findByStateAndContract("A", Long.valueOf(id));
         if(contract.isPresent()){
             return contract.get();
         }

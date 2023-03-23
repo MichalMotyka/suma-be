@@ -95,12 +95,15 @@ public class OtService {
                 contract.setState("A");
                 contractService.edit(contract);
                 ppService.updatePP(pp);
-            }else if (contract.getState().equals("P") && pp.getMeter() != 0 && ot.getAction().equals("D")){
+            }else if (contract.getState().equals("P") && pp.getMeter() != 0 && ot.getAction().equals("D")) {
                 pp.setMeter(0L);
                 ppService.updatePP(pp);
                 contract.setState("Z");
                 contractService.edit(contract);
-            }else return false;
+            } else if (existingOT.get().getAction().equals("P") || existingOT.get().getAction().equals("W")) {
+                ot.setStatus("Z");
+
+        }else return false;
             otRepo.save(ot);
             return true;
         }
